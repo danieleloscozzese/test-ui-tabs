@@ -1,26 +1,30 @@
-import type { Meta, StoryFn } from "@storybook/react";
-import { TabGroup, Panel } from "./tab-group";
+import type { Meta, StoryObj } from "@storybook/react";
+import { TabGroup as Component, Panel } from "./tab-group";
 
 const config: Meta = {
   title: "TabGroup",
-  component: TabGroup,
+  component: Component,
 };
 
-const TabStory: StoryFn<typeof TabGroup> = () => {
-  return (
-    <TabGroup accessibleTitle="Example tab group">
+type Story = StoryObj<typeof config>;
+
+const TabGroup: Story = {
+  args: {
+    accessibleTitle: "Example tab group",
+    tabVariant: "pill",
+    children: [
       <Panel title="First">
-        <p>The default data that will be shown on arrival</p>
-      </Panel>
+        <p className="body m">The default data that will be shown on arrival</p>
+      </Panel>,
       <Panel title="Second">
-        <p>The content of another tab</p>
-      </Panel>
+        <p className="body m">The content of another tab</p>
+      </Panel>,
       <Panel title="Third">
-        <p>
+        <p className="body m">
           Yet <em>more</em> content.
         </p>
-        <p>This time there&apos;s more than before.</p>
-      </Panel>
+        <p className="body m">This time there&apos;s more than before.</p>
+      </Panel>,
       <Panel
         title={{
           label: "Fourth",
@@ -30,14 +34,12 @@ const TabStory: StoryFn<typeof TabGroup> = () => {
           },
         }}
       >
-        <p>
-          Yet <em>more</em> content.
-        </p>
-        <p>This time there&apos;s more than before.</p>
-      </Panel>
-    </TabGroup>
-  );
+        <p className="body m">And another tab</p>
+        <p className="body s">(This time there&apos;s a badge.)</p>
+      </Panel>,
+    ],
+  },
 };
 
 export default config;
-export { TabStory as Tab };
+export { TabGroup };

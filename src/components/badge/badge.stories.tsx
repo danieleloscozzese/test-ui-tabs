@@ -1,33 +1,32 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Badge from "./badge";
+import Component from "./badge";
 
 const config: Meta = {
   title: "Badge",
-  component: Badge,
+  component: Component,
+  args: {
+    children: "Badge",
+    variant: "neutral",
+  },
 };
 
 type Story = StoryObj<typeof config>;
 
+const Badge: Story = {
+  args: {},
+};
+
 const Neutral: Story = {
-  args: {
-    variant: "neutral",
-    children: "Badge",
-  },
+  args: { variant: "neutral" },
 };
 
 const Positive: Story = {
-  args: {
-    variant: "positive",
-    children: "Badge",
-  },
+  args: { variant: "positive" },
 };
 
 const Negative: Story = {
-  args: {
-    variant: "negative",
-    children: "Badge",
-  },
+  args: { variant: "negative" },
 };
 
 export default config;
-export { Neutral, Positive, Negative };
+export { Badge, Neutral, Positive, Negative };
