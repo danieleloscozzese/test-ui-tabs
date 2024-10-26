@@ -1,6 +1,5 @@
 import type { Meta, StoryFn } from "@storybook/react";
-import React from "react";
-import { TabGroup, Panel } from "./tab";
+import { TabGroup, Panel } from "./tab-group";
 
 const config: Meta = {
 	title: "TabGroup",
