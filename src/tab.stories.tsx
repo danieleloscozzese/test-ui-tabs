@@ -16,6 +16,9 @@ const TabStory: StoryFn<typeof TabGroup> = () => {
 			<Panel title="Second">
 				<p>Lorem ipsum dolor sic amet</p>
 			</Panel>
+			<Panel title="Third">
+				<p>Adequiscing sic amet</p>
+			</Panel>
 		</TabGroup>
 	);
 };
