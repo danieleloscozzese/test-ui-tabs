@@ -1,0 +1,50 @@
+{
+	"private": true,
+	"name": "@test-ui/tabs",
+	"version": "1.0.0",
+	"description": "A UI test for some tabs.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build"
+	},
+	"keywords": [
+		"tabs"
+	],
+	"author": "Daniel Arthur Gallagher [https://danielarthurgallagher.dev/]",
+	"license": "UNLICENSED",
+	"dependencies": {
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
+	},
+	"devDependencies": {
+		"@chromatic-com/storybook": "^1.9.0",
+		"@eslint/js": "^9.13.0",
+		"@storybook/addon-essentials": "^8.3.6",
+		"@storybook/addon-interactions": "^8.3.6",
+		"@storybook/addon-links": "^8.3.6",
+		"@storybook/addon-onboarding": "^8.3.6",
+		"@storybook/blocks": "^8.3.6",
+		"@storybook/react": "^8.3.6",
+		"@storybook/react-vite": "^8.3.6",
+		"@storybook/test": "^8.3.6",
+		"@testing-library/react": "^16.0.1",
+		"@types/react": "^18.3.12",
+		"@types/react-dom": "^18.3.1",
+		"eslint": "^9.13.0",
+		"eslint-plugin-react": "^7.37.2",
+		"eslint-plugin-storybook": "^0.10.1",
+		"globals": "^15.11.0",
+		"prettier": "3.3.3",
+		"storybook": "^8.3.6",
+		"typescript": "^5.6.3",
+		"typescript-eslint": "^8.11.0"
+	},
+	"packageManager": "npm@10.9.0+sha512.65a9c38a8172948f617a53619762cd77e12b9950fe1f9239debcb8d62c652f2081824b986fee7c0af6c0a7df615becebe4bf56e17ec27214a87aa29d9e038b4b",
+	"eslintConfig": {
+		"extends": [
+			"plugin:storybook/recommended"
+		]
+	}
+}
