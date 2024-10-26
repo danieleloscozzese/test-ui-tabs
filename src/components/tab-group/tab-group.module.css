@@ -6,6 +6,7 @@
   }
 
   .tab {
+    box-sizing: border-box;
     display: block;
   }
 
@@ -44,11 +45,23 @@
     background-color: #585d71;
   }
 
+  .tab-list.underline .tab {
+    border-bottom: 3px solid transparent;
+  }
+
+  .tab-list.underline .tab:where(:hover, :active, :focus-within) {
+    border-bottom-color: #c4c5cf;
+  }
+
+  .tab-list.underline .tab[aria-selected="true"] {
+    border-bottom-color: #1b2134;
+  }
+
   .tab button {
     appearance: none;
     background-color: transparent;
     border: none;
-    padding-block: 0;
+    padding: 0;
 
     display: flex;
     align-items: center;
@@ -57,8 +70,9 @@
 
     /* Set here since it does not need to be managed at a higher level */
     font-weight: 700;
-    /* Set to inherit since it varies based on the selected state of the tab */
+    /* Set to inherit since it is controlled by the ta */
     color: inherit;
+    font-family: inherit;
   }
 
   .tab:focus-within button {
