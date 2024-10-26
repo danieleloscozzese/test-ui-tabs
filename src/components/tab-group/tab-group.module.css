@@ -5,16 +5,42 @@
     padding: 0;
   }
 
-  .tab-list.pill .tab {
-    border: 1px solid #d3d3dc;
-    border-radius: 100px;
-  }
-
   .tab {
     display: flex;
     align-items: center;
     /* The gap is between the text and an eventual badge */
     gap: var(--spacing-3xs);
+  }
+
+  .tab:focus {
+    outline: #1b2134 solid 2px;
+  }
+
+  .tab-list.pill .tab {
+    background-color: white;
+    border: 1px solid #d3d3dc;
+    border-radius: 100px;
+  }
+
+  .tab-list.pill .tab:hover {
+    background-color: #f6f6fa;
+    border-color: #c4c5cf;
+  }
+
+  .tab-list.pill .tab:active {
+    background-color: #f1f1f7;
+  }
+
+  .tab-list.pill .tab[aria-selected="true"] {
+    background-color: #1b2134;
+  }
+
+  .tab-list.pill .tab[aria-selected="true"]:hover {
+    background-color: #343a4e;
+  }
+
+  .tab-list.pill .tab[aria-selected="true"]:active {
+    background-color: #585d71;
   }
 
   .tab button {
@@ -24,6 +50,11 @@
 		by the tab.
 	*/
     display: contents;
+    appearance: none;
+    /* Set here since it does not need to be managed at a higher level */
+    font-weight: 700;
+    /* Set to inherit since it varies based on the selected state of the tab */
+    color: inherit;
   }
 
   @media (max-width: 768px) {
