@@ -1,0 +1,17 @@
+@layer components {
+	.tab-group {
+	}
+
+	.tab-list {
+		display: flex;
+		flex: row nowrap;
+		padding: 0;
+	}
+
+	.tab {
+		display: inline-block;
+	}
+
+	.tab-panel {
+	}
+}
