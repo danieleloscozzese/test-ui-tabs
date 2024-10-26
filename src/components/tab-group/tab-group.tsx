@@ -148,7 +148,7 @@ const TabGroup: FC<TabGroupProps> = ({
       <li
         key={title.label}
         role="tab"
-        className={ownClasses.tab}
+        className={classNames(ownClasses.tab, "body m")}
         id={tabId}
         aria-controls={panelId}
         aria-selected={isSelected}

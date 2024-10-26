@@ -1,14 +1,64 @@
 @layer components {
-	.tab-list {
-		display: flex;
-		flex: row nowrap;
-		padding: 0;
-	}
+  .tab-list {
+    display: flex;
+    flex: row nowrap;
+    padding: 0;
+  }
 
-	.tab {
-		display: inline-block;
-	}
+  .tab-list.pill .tab {
+    border: 1px solid #d3d3dc;
+    border-radius: 100px;
+  }
 
-	.tab-panel {
-	}
+  .tab {
+    display: flex;
+    align-items: center;
+    /* The gap is between the text and an eventual badge */
+    gap: var(--spacing-3xs);
+  }
+
+  .tab button {
+    /*
+		This removes the button's styles from the UI entirely.
+		The interaction works just the same, and the centering is done
+		by the tab.
+	*/
+    display: contents;
+  }
+
+  @media (max-width: 768px) {
+    .tab-list.pill {
+      gap: var(--spacing-2xs);
+    }
+
+    .tab-list.pill .tab {
+      padding-inline: var(--spacing-xs);
+    }
+
+    .tab-list.underline {
+      gap: var(--spacing-l);
+    }
+
+    .tab {
+      height: 42px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .tab-list.pill {
+      gap: var(--spacing-xs);
+    }
+
+    .tab-list.pill .tab {
+      padding-inline: var(--spacing-s);
+    }
+
+    .tab-list.underline {
+      gap: var(--spacing-xl);
+    }
+
+    .tab {
+      height: 50px;
+    }
+  }
 }
