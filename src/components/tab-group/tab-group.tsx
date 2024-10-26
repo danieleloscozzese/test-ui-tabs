@@ -162,6 +162,7 @@ const TabGroup: FC<TabGroupProps> = ({
           tabIndex={isSelected ? 0 : -1}
         >
           {title.label}
+
           {title.badge !== undefined ? (
             <Badge variant={title.badge.variant}>{title.badge.children}</Badge>
           ) : null}

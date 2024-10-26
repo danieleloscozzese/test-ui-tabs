@@ -6,10 +6,7 @@
   }
 
   .tab {
-    display: flex;
-    align-items: center;
-    /* The gap is between the text and an eventual badge */
-    gap: var(--spacing-3xs);
+    display: block;
   }
 
   /* The custom focus is applied in the same way to all tab styles */
@@ -51,7 +48,12 @@
     appearance: none;
     background-color: transparent;
     border: none;
-    padding: 0;
+    padding-block: 0;
+
+    display: flex;
+    align-items: center;
+    /* The gap is between the text and an eventual badge */
+    gap: var(--spacing-3xs);
 
     /* Set here since it does not need to be managed at a higher level */
     font-weight: 700;
@@ -68,7 +70,7 @@
       gap: var(--spacing-2xs);
     }
 
-    .tab-list.pill .tab {
+    .tab-list.pill .tab button {
       padding-inline: var(--spacing-xs);
     }
 
@@ -76,7 +78,7 @@
       gap: var(--spacing-l);
     }
 
-    .tab {
+    .tab button {
       height: 42px;
     }
   }
@@ -86,7 +88,7 @@
       gap: var(--spacing-xs);
     }
 
-    .tab-list.pill .tab {
+    .tab-list.pill .tab button {
       padding-inline: var(--spacing-s);
     }
 
@@ -94,7 +96,7 @@
       gap: var(--spacing-xl);
     }
 
-    .tab {
+    .tab button {
       height: 50px;
     }
   }
