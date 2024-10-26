@@ -42,9 +42,9 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 	const titles = new Array(children.length),
 		panelContents = new Array(children.length);
 
-	children.forEach(({ props: { title, children: panel } }) => {
-		titles.push(title);
-		panelContents.push(panel);
+	children.forEach(({ props: { title, children: panel } }, index) => {
+		titles[index] = title;
+		panelContents[index] = panel;
 	});
 
 	validateTitles(titles);
