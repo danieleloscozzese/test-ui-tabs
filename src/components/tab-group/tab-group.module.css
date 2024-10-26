@@ -12,14 +12,17 @@
     gap: var(--spacing-3xs);
   }
 
-  .tab:focus {
+  /* The custom focus is applied in the same way to all tab styles */
+  .tab:focus-within {
     outline: #1b2134 solid 2px;
+    outline-offset: 2px;
   }
 
   .tab-list.pill .tab {
     background-color: white;
     border: 1px solid #d3d3dc;
     border-radius: 100px;
+    color: #1b2134;
   }
 
   .tab-list.pill .tab:hover {
@@ -33,6 +36,7 @@
 
   .tab-list.pill .tab[aria-selected="true"] {
     background-color: #1b2134;
+    color: white;
   }
 
   .tab-list.pill .tab[aria-selected="true"]:hover {
@@ -44,17 +48,19 @@
   }
 
   .tab button {
-    /*
-		This removes the button's styles from the UI entirely.
-		The interaction works just the same, and the centering is done
-		by the tab.
-	*/
-    display: contents;
     appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+
     /* Set here since it does not need to be managed at a higher level */
     font-weight: 700;
     /* Set to inherit since it varies based on the selected state of the tab */
     color: inherit;
+  }
+
+  .tab:focus-within button {
+    outline: none;
   }
 
   @media (max-width: 768px) {
