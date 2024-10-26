@@ -10,7 +10,7 @@ type PanelProps = PropsWithChildren<{ title: string }>;
 const Panel: FC<PanelProps> = ({ children }) => children;
 
 interface TabGroupProps {
-	titles: string[];
+	accessibleTitle: string;
 	children: React.ReactElement<PanelProps, typeof Panel>[];
 }
 
@@ -74,7 +74,7 @@ const handleTabKeyDown = (
 	}
 };
 
-const TabGroup: FC<TabGroupProps> = ({ children }) => {
+const TabGroup: FC<TabGroupProps> = ({ accessibleTitle, children }) => {
 	const titles = new Array(children.length),
 		panelContents = new Array(children.length);
 
@@ -86,6 +86,7 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 	validateTitles(titles);
 
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
+
 	const pairIds: { tabId: string; panelId: string }[] = new Array(
 		children.length,
 	);
@@ -138,7 +139,11 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 
 	return (
 		<div className={ownClasses.tabGroup}>
-			<ol role="tablist" className={ownClasses.tabList}>
+			<ol
+				role="tablist"
+				className={ownClasses.tabList}
+				aria-label={accessibleTitle}
+			>
 				{tabs}
 			</ol>
 

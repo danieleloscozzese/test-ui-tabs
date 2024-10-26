@@ -9,15 +9,18 @@ const config: Meta = {
 
 const TabStory: StoryFn<typeof TabGroup> = () => {
 	return (
-		<TabGroup titles={["First", "Second"]}>
+		<TabGroup accessibleTitle="Example tab group">
 			<Panel title="First">
-				<p>Lorem ipsum</p>
+				<p>The default data that will be shown on arrival</p>
 			</Panel>
 			<Panel title="Second">
-				<p>Lorem ipsum dolor sic amet</p>
+				<p>The content of another tab</p>
 			</Panel>
 			<Panel title="Third">
-				<p>Adequiscing sic amet</p>
+				<p>
+					Yet <em>more</em> content.
+				</p>
+				<p>This time there&apos;s more than before.</p>
 			</Panel>
 		</TabGroup>
 	);
