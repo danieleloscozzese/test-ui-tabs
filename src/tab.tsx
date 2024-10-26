@@ -57,6 +57,7 @@ const handleTabKeyDown = (
 	} else if (evt.key === "End" || (evt.key === "ArrowRight" && evt.metaKey)) {
 		tabButtons[tabButtons.length - 1].focus();
 	} else if (evt.key === "ArrowRight") {
+		// Loop back to the start if the focus is at the end
 		if (index + 1 < tabButtons.length) {
 			tabButtons[index + 1].focus();
 		} else {
@@ -65,7 +66,9 @@ const handleTabKeyDown = (
 	} else if (evt.key === "ArrowLeft") {
 		if (index > 0) {
 			tabButtons[index - 1].focus();
-		} else {
+		}
+		// Loop around to the end if the focus is at the start
+		else {
 			tabButtons[tabButtons.length - 1].focus();
 		}
 	}
