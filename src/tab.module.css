@@ -1,7 +1,4 @@
 @layer components {
-	.tab-group {
-	}
-
 	.tab-list {
 		display: flex;
 		flex: row nowrap;

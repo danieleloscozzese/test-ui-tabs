@@ -11,6 +11,7 @@ const Panel: FC<PanelProps> = ({ children }) => children;
 
 interface TabGroupProps {
 	accessibleTitle: string;
+	withManualSwitching?: boolean;
 	children: React.ReactElement<PanelProps, typeof Panel>[];
 }
 
@@ -74,7 +75,11 @@ const handleTabKeyDown = (
 	}
 };
 
-const TabGroup: FC<TabGroupProps> = ({ accessibleTitle, children }) => {
+const TabGroup: FC<TabGroupProps> = ({
+	accessibleTitle,
+	children,
+	// withManualSwitching = false,
+}) => {
 	const titles = new Array(children.length),
 		panelContents = new Array(children.length);
 
@@ -103,17 +108,17 @@ const TabGroup: FC<TabGroupProps> = ({ accessibleTitle, children }) => {
 				key={title}
 				role="tab"
 				className={ownClasses.tab}
-				aria-selected={isSelected}
 				id={tabId}
 				aria-controls={panelId}
+				aria-selected={isSelected}
 			>
 				<button
 					type="button"
 					onClick={() => {
 						setActiveTabIndex(index);
 					}}
-					tabIndex={isSelected ? 0 : -1}
 					onKeyDown={(evt) => handleTabKeyDown(evt, index)}
+					tabIndex={isSelected ? 0 : -1}
 				>
 					{title}
 				</button>
@@ -122,13 +127,15 @@ const TabGroup: FC<TabGroupProps> = ({ accessibleTitle, children }) => {
 	});
 
 	const panels = children.map((panel, index) => {
+		const isSelected = index === activeTabIndex;
+
 		return (
 			<section
 				key={titles[index]}
 				role="tabpanel"
-				hidden={index !== activeTabIndex}
-				tabIndex={index === activeTabIndex ? 0 : undefined}
 				className={ownClasses.panel}
+				hidden={!isSelected}
+				tabIndex={isSelected ? 0 : undefined}
 				aria-labelledby={pairIds[index].tabId}
 				id={pairIds[index].panelId}
 			>
@@ -138,7 +145,7 @@ const TabGroup: FC<TabGroupProps> = ({ accessibleTitle, children }) => {
 	});
 
 	return (
-		<div className={ownClasses.tabGroup}>
+		<div>
 			<ol
 				role="tablist"
 				className={ownClasses.tabList}
