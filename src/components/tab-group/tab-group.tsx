@@ -1,15 +1,38 @@
-import React, { type FC, type PropsWithChildren, useId, useState } from "react";
+import classNames from "classnames";
+import React, {
+  type FC,
+  type PropsWithChildren,
+  ReactNode,
+  useId,
+  useState,
+} from "react";
+import Badge, { type BadgeConfiguration } from "../badge";
 import ownClasses from "./tab-group.module.css";
 
 type TabConfiguration =
   | string
   | {
       label: string;
-      badge?: {
-        label: string;
-        variant: "neutral" | "positive" | "negative";
-      };
+      badge?: BadgeConfiguration;
     };
+
+/**
+ * A small data structure which unifies the tab configuration into a single
+ * interface, for ease of access to the string inside the `TabGroup`.
+ */
+class TabTitle {
+  label: string;
+  badge: BadgeConfiguration | undefined = undefined;
+
+  constructor(tabConfig: TabConfiguration) {
+    if (typeof tabConfig === "string") {
+      this.label = tabConfig;
+    } else {
+      this.label = tabConfig.label;
+      this.badge = tabConfig.badge;
+    }
+  }
+}
 
 type PanelProps = PropsWithChildren<{ title: TabConfiguration }>;
 
@@ -35,8 +58,16 @@ interface TabGroupProps {
  * differentiated by the user.
  * No error is thrown so that whichever content is valid is rendered as usual.
  */
-const validateTitles = (titles: string[]) => {
-  const uniqueTitles = new Set(titles.map((t) => t.toLocaleLowerCase()));
+const validateTitles = (titles: TabConfiguration[]) => {
+  const titleTexts = titles.map((t) => {
+    if (typeof t === "string") {
+      return t.toLocaleLowerCase();
+    } else {
+      return t.label.toLocaleLowerCase();
+    }
+  });
+
+  const uniqueTitles = new Set(titleTexts);
 
   if (titles.length > uniqueTitles.size) {
     console.group("[Tabs]");
@@ -92,11 +123,11 @@ const TabGroup: FC<TabGroupProps> = ({
   // withManualSwitching = false,
   tabVariant = "pill",
 }) => {
-  const titles = new Array(children.length),
-    panelContents = new Array(children.length);
+  const titles: TabTitle[] = new Array(children.length),
+    panelContents: ReactNode[] = new Array(children.length);
 
   children.forEach(({ props: { title, children: panel } }, index) => {
-    titles[index] = title;
+    titles[index] = new TabTitle(title);
     panelContents[index] = panel;
   });
 
@@ -115,7 +146,7 @@ const TabGroup: FC<TabGroupProps> = ({
 
     return (
       <li
-        key={title}
+        key={title.label}
         role="tab"
         className={ownClasses.tab}
         id={tabId}
@@ -130,7 +161,10 @@ const TabGroup: FC<TabGroupProps> = ({
           onKeyDown={(evt) => handleTabKeyDown(evt, index)}
           tabIndex={isSelected ? 0 : -1}
         >
-          {title}
+          {title.label}
+          {title.badge !== undefined ? (
+            <Badge variant={title.badge.variant}>{title.badge.children}</Badge>
+          ) : null}
         </button>
       </li>
     );
@@ -141,7 +175,7 @@ const TabGroup: FC<TabGroupProps> = ({
 
     return (
       <section
-        key={titles[index]}
+        key={titles[index].label}
         role="tabpanel"
         className={ownClasses.panel}
         hidden={!isSelected}
@@ -158,7 +192,7 @@ const TabGroup: FC<TabGroupProps> = ({
     <div>
       <ol
         role="tablist"
-        className={ownClasses.tabList}
+        className={classNames(ownClasses.tabList, ownClasses[tabVariant])}
         aria-label={accessibleTitle}
       >
         {tabs}
