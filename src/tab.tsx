@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren } from "react";
+import React, { type FC, type PropsWithChildren, useState } from "react";
 import ownClasses from "./tab.module.css";
 
 type PanelProps = PropsWithChildren<{ title: string }>;
@@ -49,10 +49,50 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 
 	validateTitles(titles);
 
-	const tabs = titles.map((title) => {
+	const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+	const tabs = titles.map((title, index) => {
 		return (
 			<li key={title} role="tab" className={ownClasses.tab}>
-				<button type="button">{title}</button>
+				<button
+					type="button"
+					onClick={() => {
+						setActiveTabIndex(index);
+					}}
+					tabIndex={index === activeTabIndex ? 0 : -1}
+					onKeyDown={(evt) => {
+						const containingTabList =
+							evt.currentTarget.parentElement?.parentElement;
+
+						if (containingTabList?.role !== "tablist") {
+							throw new Error("Broken structure, unable to proceed");
+						}
+
+						const tabButtons: NodeListOf<HTMLButtonElement> =
+							containingTabList.querySelectorAll('[role="tab"] button');
+
+						switch (evt.key) {
+							case "ArrowRight":
+								if (index + 1 < tabButtons.length) {
+									tabButtons[index + 1].focus();
+								}
+								return;
+							case "ArrowLeft":
+								if (index > 0) {
+									tabButtons[index - 1].focus();
+								}
+								return;
+							case "Home":
+								tabButtons[0].focus();
+								return;
+							case "End":
+								tabButtons[tabButtons.length - 1].focus();
+								return;
+						}
+					}}
+				>
+					{title}
+				</button>
 			</li>
 		);
 	});
@@ -62,7 +102,7 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 			<section
 				key={titles[index]}
 				role="tabpanel"
-				hidden={index > 0}
+				hidden={index !== activeTabIndex}
 				className={ownClasses.panel}
 			>
 				{panel}
@@ -82,4 +122,4 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 };
 
 export default TabGroup;
-export { TabGroup, Panel };
+export { Panel, TabGroup };
