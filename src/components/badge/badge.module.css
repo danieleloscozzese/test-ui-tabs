@@ -1,0 +1,35 @@
+@layer components {
+  .badge {
+    color: #1b2134;
+    font-weight: 700;
+  }
+
+  .badge.neutral {
+    background-color: #f1f1f7;
+  }
+
+  .badge.positive {
+    background-color: var(--color-positive);
+  }
+
+  .badge.negative {
+    background-color: var(--color-negative);
+  }
+
+  /* At the 768px point the UI switches from mobile to wide */
+  @media (max-width: 768px) {
+    .badge {
+      border-radius: 12px;
+      padding-block: var(--spacing-4xs);
+      padding-inline: var(--spacing-3xs);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .badge {
+      border-radius: 8px;
+      padding-block: var(--spacing-3xs);
+      padding-inline: var(--spacing-2xs);
+    }
+  }
+}
