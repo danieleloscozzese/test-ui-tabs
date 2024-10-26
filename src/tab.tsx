@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren, useState } from "react";
+import React, { type FC, type PropsWithChildren, useId, useState } from "react";
 import ownClasses from "./tab.module.css";
 
 type PanelProps = PropsWithChildren<{ title: string }>;
@@ -38,6 +38,39 @@ const validateTitles = (titles: string[]) => {
 	}
 };
 
+const handleTabKeyDown = (
+	evt: React.KeyboardEvent<HTMLButtonElement>,
+	index: number,
+) => {
+	const containingTabList = evt.currentTarget.parentElement?.parentElement;
+
+	if (containingTabList?.role !== "tablist") {
+		throw new Error("Broken structure, unable to proceed");
+	}
+
+	const tabButtons: NodeListOf<HTMLButtonElement> =
+		containingTabList.querySelectorAll('[role="tab"] button');
+
+	// TODO autoswitch with an override
+	if (evt.key === "Home" || (evt.key === "ArrowLeft" && evt.metaKey)) {
+		tabButtons[0].focus();
+	} else if (evt.key === "End" || (evt.key === "ArrowRight" && evt.metaKey)) {
+		tabButtons[tabButtons.length - 1].focus();
+	} else if (evt.key === "ArrowRight") {
+		if (index + 1 < tabButtons.length) {
+			tabButtons[index + 1].focus();
+		} else {
+			tabButtons[0].focus();
+		}
+	} else if (evt.key === "ArrowLeft") {
+		if (index > 0) {
+			tabButtons[index - 1].focus();
+		} else {
+			tabButtons[tabButtons.length - 1].focus();
+		}
+	}
+};
+
 const TabGroup: FC<TabGroupProps> = ({ children }) => {
 	const titles = new Array(children.length),
 		panelContents = new Array(children.length);
@@ -50,46 +83,33 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 	validateTitles(titles);
 
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
+	const pairIds: { tabId: string; panelId: string }[] = new Array(
+		children.length,
+	);
 
 	const tabs = titles.map((title, index) => {
+		const tabId = useId();
+		const panelId = useId();
+		pairIds[index] = { tabId, panelId };
+
+		const isSelected = index === activeTabIndex;
+
 		return (
-			<li key={title} role="tab" className={ownClasses.tab}>
+			<li
+				key={title}
+				role="tab"
+				className={ownClasses.tab}
+				aria-selected={isSelected}
+				id={tabId}
+				aria-controls={panelId}
+			>
 				<button
 					type="button"
 					onClick={() => {
 						setActiveTabIndex(index);
 					}}
-					tabIndex={index === activeTabIndex ? 0 : -1}
-					onKeyDown={(evt) => {
-						const containingTabList =
-							evt.currentTarget.parentElement?.parentElement;
-
-						if (containingTabList?.role !== "tablist") {
-							throw new Error("Broken structure, unable to proceed");
-						}
-
-						const tabButtons: NodeListOf<HTMLButtonElement> =
-							containingTabList.querySelectorAll('[role="tab"] button');
-
-						switch (evt.key) {
-							case "ArrowRight":
-								if (index + 1 < tabButtons.length) {
-									tabButtons[index + 1].focus();
-								}
-								return;
-							case "ArrowLeft":
-								if (index > 0) {
-									tabButtons[index - 1].focus();
-								}
-								return;
-							case "Home":
-								tabButtons[0].focus();
-								return;
-							case "End":
-								tabButtons[tabButtons.length - 1].focus();
-								return;
-						}
-					}}
+					tabIndex={isSelected ? 0 : -1}
+					onKeyDown={(evt) => handleTabKeyDown(evt, index)}
 				>
 					{title}
 				</button>
@@ -103,7 +123,10 @@ const TabGroup: FC<TabGroupProps> = ({ children }) => {
 				key={titles[index]}
 				role="tabpanel"
 				hidden={index !== activeTabIndex}
+				tabIndex={index === activeTabIndex ? 0 : undefined}
 				className={ownClasses.panel}
+				aria-labelledby={pairIds[index].tabId}
+				id={pairIds[index].panelId}
 			>
 				{panel}
 			</section>
